@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>
+            {% block page_title_prefix %}{% endblock %}{% if block('page_title_prefix') %} - {% endif %}{{ config('app.name') }}
+        </title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+        <div id="wrapper">
+            <div id="page-wrapper">
+                <header>
+
+                </header>
+                <div class="container">
+                    {% block content %}{% endblock %}
+                </div>
+                <footer>
+                    <strong>Version</strong> {{ config('app.version') }}
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
