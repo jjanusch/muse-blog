@@ -1,0 +1,14 @@
+{% extends 'layouts.app' %}
+
+{% block page_title_prefix %}{{ page.title }}{% endblock %}
+
+
+{% block content %}
+    <h2>{{ page.title }}</h2>
+    <div class="page-content">
+        {{ page.body|raw }}
+    </div>
+    <p class="text-muted small">
+        Last updated on {{ page.updated_at|date('F d, Y') }}
+    </p>
+{% endblock %}

@@ -14,3 +14,4 @@
 Route::get('/{page?}', 'PostController@index')->name('page.posts');
 Route::get('/tags/{tag}/{page?}', 'PostController@tag')->name('page.posts/tags/show');
 Route::get('/{year}/{month}/{slug}', 'PostController@show')->name('page.posts/show');
+Route::get('/page/{slug}', 'PageController@show')->name('page.pages/show');
