@@ -9,11 +9,10 @@
                 {{ post.title }}
             </a>
         </h2>
-        <div class="post-meta">
+        <div class="metadata">
             <small class="date" title="{{ post.published_at|date('Y-m-d H:i:s') }}">
                 {{ post.published_at|date('F d, Y') }}
             </small>
-            |
             {% for tag in post.tags %}
                 <a href="{{ tag.url }}" class="badge badge-light">{{ tag.tag }}</a>
             {% endfor %}
