@@ -27,6 +27,8 @@ __MACOSX
 /storage
 /public/js/app.js
 /public/css/app.css
+npm-debug.log
+public/mix-manifest.json
 
 # project specific
 /assets

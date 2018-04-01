@@ -8,22 +8,84 @@
             {% block page_title_prefix %}{% endblock %}{% if block('page_title_prefix') %} - {% endif %}{{ config('app.name') }}
         </title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+        <link rel="stylesheet"
+                href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                crossorigin="anonymous">
+        <script src="https://use.fontawesome.com/7f2ebdeaaf.js" defer></script>
+        <link rel="stylesheet"
+                href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
+        <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <div id="wrapper">
             <div id="page-wrapper">
-                <header>
-
-                </header>
                 <div class="container">
-                    {% block content %}{% endblock %}
+                    <header>
+                        <h1 title="v{{ config('app.version') }}">
+                            <a href="/">{{ config('app.name') }}</a>
+                        </h1>
+                        <p>{{ config('app.tagline') }}</p>
+                    </header>
+                    <div id="content">
+                        <div class="row">
+                            <div class="col-md-9 content-body">
+                                {% block content %}{% endblock %}
+                            </div>
+                            <div class="col-md-3">
+                                <div id="sidebar">
+                                    <h3>Pages</h3>
+                                    <ul class="nav flex-column page-list">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('page.pages/show', {slug: 'about'}) }}">About</a>
+                                        </li>
+                                    </ul>
+                                    <h3>Find Me On</h3>
+                                    <ul class="nav flex-column social-list">
+                                        <li class="nav-item">
+                                            <a href="http://last.fm/user/jaj43123" class="nav-link">
+                                                <i class="fa fa-fw fa-lastfm"></i> Last.fm
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="https://twitter.com/Apocalyptic0n3" class="nav-link">
+                                                <i class="fa fa-fw fa-twitter"></i> Twitter
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="https://www.linkedin.com/pub/josh-janusch/4b/a98/a7a" class="nav-link">
+                                                <i class="fa fa-fw fa-linkedin"></i> Linkedin
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="https://github.com/jjanusch" class="nav-link">
+                                                <i class="fa fa-fw fa-github"></i> Github
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="http://letterboxd.com/apocalyptic0n3/" class="nav-link">
+                                                <i class="fa fa-fw fa-film"></i> Letterboxd
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="http://stackoverflow.com/users/1515620/josh-janusch" class="nav-link">
+                                                <i class="fa fa-fw fa-stack-overflow"></i> Stackoverflow
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer>
+                        <span class="copyright">
+                            Copyright {{ 'now'|date('Y') }}
+                        </span>
+                    </footer>
                 </div>
-                <footer>
-                    <strong>Version</strong> {{ config('app.version') }}
-                </footer>
             </div>
         </div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
     </body>
 </html>
