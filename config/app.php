@@ -15,19 +15,6 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Application Tagling
-    |--------------------------------------------------------------------------
-    |
-    | This value is the tagline of your application. This value is used as subtext
-    | whenever the Application Name is used
-    |
-    */
-
-    'tagline' => env('APP_TAGLINE'),
-
-
 
     /*
     |--------------------------------------------------------------------------
