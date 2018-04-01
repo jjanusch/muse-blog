@@ -1,0 +1,32 @@
+# system files
+.DS_Store
+thumbs.db
+__MACOSX
+._*
+
+# vim swap files
+*.swp
+*.swo
+
+# PHPStorm project files
+/.idea/
+
+# ignore vagrant files
+/.vagrant/
+/VagrantFile
+/vagrant-files
+
+# laravel
+/vendor
+/node_modules
+/.env
+/.phpstorm.meta.php
+/_ide_helper.php
+/public/vendor
+*.map
+/storage
+/public/js/app.js
+/public/css/app.css
+
+# project specific
+/assets
