@@ -12,6 +12,7 @@
         "laravel/tinker": "~1.0",
         "league/commonmark": "^0.17.5",
         "rcrowe/twigbridge": "^0.9.6",
+        "spatie/laravel-responsecache": "^4.3",
         "spatie/yaml-front-matter": "^2.0"
     },
     "require-dev": {
