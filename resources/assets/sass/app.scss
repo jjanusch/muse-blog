@@ -113,4 +113,10 @@ div#content {
 footer {
   border-top: $separator;
   padding: $headerFooterPadding;
+  display: flex;
+  align-items: center;
+
+  .copyright {
+    margin-left: 15px;
+  }
 }
