@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use Cache;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use League\CommonMark\CommonMarkConverter;
@@ -21,7 +22,7 @@ class PostService
      */
     public function getPosts()
     {
-        return \Cache::remember('posts-index', config('posts.index_ttl'), function () {
+        return Cache::rememberForever('posts.all', function () {
             $markdownConverter = new CommonMarkConverter();
 
             return collect(glob(base_path('content/posts/*.md')))->map(function ($filename) use ($markdownConverter) {
