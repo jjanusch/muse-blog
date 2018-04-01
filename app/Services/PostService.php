@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use League\CommonMark\CommonMarkConverter;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -42,7 +43,7 @@ class PostService
                     ]),
                     'title'        => $document->title,
                     'summary'      => $document->summary,
-                    'published_at' => $document->published_at,
+                    'published_at' => Carbon::createFromFormat('U', $document->published_at),
                     'body'         => $markdownConverter->convertToHtml($document->body()),
                     'tags'         => isset($post['tags']) ? (is_array($post['tags']) ? array_map(function ($tag) {
                         $tagSlug = str_slug($tag);

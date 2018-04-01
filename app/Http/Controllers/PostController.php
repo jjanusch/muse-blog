@@ -5,13 +5,27 @@ namespace App\Http\Controllers;
 
 
 use App\Services\PostService;
+use Cache;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    /**
+     * @var PostService
+     */
+    private $postService;
+
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->postService = new PostService();
+    }
+
+
     public function index(int $page = 1)
     {
-        $postService = new PostService();
-        $posts       = $postService->getPosts();
+        $posts = $this->postService->getPosts();
 
         $startIndex = ($page - 1) * config('posts.index_page_length');
 
@@ -33,8 +47,7 @@ class PostController extends Controller
 
     public function show($year, $month, $slug)
     {
-        $postService = new PostService();
-        $post        = $postService->getPost($year, $month, $slug);
+        $post = $this->postService->getPost($year, $month, $slug);
 
         if (!$post) {
             abort(404);
@@ -48,8 +61,7 @@ class PostController extends Controller
 
     public function tag($tagSlug, int $page = 1)
     {
-        $postService = new PostService();
-        $posts       = $postService->getPosts()->filter(function ($post) use ($tagSlug) {
+        $posts = $this->postService->getPosts()->filter(function ($post) use ($tagSlug) {
             return in_array($tagSlug, array_pluck($post['tags'], 'tag'));
         });
 
@@ -71,5 +83,21 @@ class PostController extends Controller
                     : null,
             ],
         ]);
+    }
+
+    public function feed()
+    {
+        return Cache::rememberForever('posts.feed', function () {
+            return $this->postService->getPosts()->map(function ($post) {
+                return [
+                    'id'      => $post['url'],
+                    'title'   => $post['title'],
+                    'updated' => $post['published_at'],
+                    'summary' => $post['body'],
+                    'link'    => $post['url'],
+                    'author'  => 'Josh Janusch',
+                ];
+            });
+        });
     }
 }
