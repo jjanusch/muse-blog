@@ -44,6 +44,7 @@ class PostService
                     ]),
                     'title'        => $document->title,
                     'summary'      => $document->summary,
+                    'header_image' => $document->header_image,
                     'published_at' => Carbon::createFromFormat('U', $document->published_at),
                     'body'         => $markdownConverter->convertToHtml($document->body()),
                     'tags'         => isset($post['tags']) ? (is_array($post['tags']) ? array_map(function ($tag) {

@@ -91,6 +91,14 @@ div#content {
   }
 
   .post {
+    img {
+      max-width: 100%;
+    }
+
+    .header-image {
+      margin-bottom: 10px;
+    }
+
     h2 a {
       font-size: 1.75rem;
       color: #333;

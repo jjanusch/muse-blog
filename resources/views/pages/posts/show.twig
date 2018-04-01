@@ -4,6 +4,9 @@
 
 {% block content %}
     <div class="post">
+        {% if post.header_image %}
+            <img src="{{ url(post.header_image) }}" alt="{{ post.title }}" class="header-image">
+        {% endif %}
         <h2>
             <a href="{{ post.url }}" class="title">
                 {{ post.title }}
