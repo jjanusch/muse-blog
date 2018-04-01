@@ -18,17 +18,18 @@ __MACOSX
 
 # laravel
 /vendor
-/node_modules
 /.env
 /.phpstorm.meta.php
 /_ide_helper.php
 /public/vendor
 *.map
 /storage
+
+# assets
+/node_modules
+/assets
 /public/js/app.js
 /public/css/app.css
+/public/fonts/vendor
 npm-debug.log
 public/mix-manifest.json
-
-# project specific
-/assets

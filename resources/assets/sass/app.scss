@@ -1,3 +1,8 @@
+// load bootstrap, fontawesome, and hightlight.js styles
+
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../../../node_modules/highlight.js/styles/atom-one-dark.css';
+
 $separatorColor: #e5e5e5;
 $separator: 0.0625rem solid $separatorColor;
 $headerFooterPadding: 2.53125em 0;
@@ -53,11 +58,13 @@ div#content {
   padding: 4.21875em 0;
 
   .content-body {
-    border-right: $separator;
+    @media (min-width: 768px) {
+      border-right: $separator;
+    }
   }
 
   #sidebar {
-    padding: 0 1.5rem;
+    padding: 0 1rem;
 
     h3 {
       font-size: 1.5rem;
