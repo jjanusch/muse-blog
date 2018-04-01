@@ -20,46 +20,42 @@ class PostService
      */
     public function getPosts()
     {
-//        return \Cache::remember('posts-index', config('posts.index_ttl'), function () {
-            $files = glob(base_path('content/posts/*.md'));
-            $posts = collect([]);
+        return \Cache::remember('posts-index', config('posts.index_ttl'), function () {
+            $markdownConverter = new CommonMarkConverter();
 
-            foreach ($files as $file) {
-                $posts[] = $this->getPostMeta(pathinfo($file, PATHINFO_BASENAME));
-            }
+            return collect(glob(base_path('content/posts/*.md')))->map(function ($filename) use ($markdownConverter) {
+                $document = YamlFrontMatter::parseFile($filename);
+                $post     = $document->matter();
+                $slug     = $document->matter('slug') ?: str_slug(explode('.', pathinfo($filename, PATHINFO_FILENAME))[1]);
+                $year     = date('Y', $post['published_at']);
+                $month    = date('m', $post['published_at']);
 
-            return $posts->sortByDesc('published_at');
-//        });
-    }
+                return [
+                    'path'         => $filename,
+                    'slug'         => $slug,
+                    'year'         => $year,
+                    'month'        => $month,
+                    'url'          => route('page.posts/show', [
+                        'year'  => $year,
+                        'month' => $month,
+                        'slug'  => $slug,
+                    ]),
+                    'title'        => $document->title,
+                    'summary'      => $document->summary,
+                    'published_at' => $document->published_at,
+                    'body'         => $markdownConverter->convertToHtml($document->body()),
+                    'tags'         => isset($post['tags']) ? (is_array($post['tags']) ? array_map(function ($tag) {
+                        $tagSlug = str_slug($tag);
 
-    public function getPostMeta($filename)
-    {
-        $postMatter = YamlFrontMatter::parseFile(base_path('content/posts/' . $filename));
-        $post       = $postMatter->matter();
-        $slug       = $postMatter->matter('slug') ?: str_slug(explode('.', pathinfo($filename, PATHINFO_FILENAME))[1]);
-
-        $post['path']  = $filename;
-        $post['slug']  = $slug;
-        $post['month'] = date('m', $post['published_at']);
-        $post['year']  = date('Y', $post['published_at']);
-        $post['url']   = route('page.posts/show', [
-            'year'  => $post['year'],
-            'month' => $post['month'],
-            'slug'  => $slug,
-        ]);
-
-        $newTags = [];
-        foreach ($post['tags'] as $tag) {
-            $tagSlug   = str_slug($tag);
-            $newTags[$tagSlug] = [
-                'tag'  => $tag,
-                'slug' => $tagSlug,
-                'url'  => route('page.posts/tags/show', ['tag' => $tagSlug]),
-            ];
-        }
-        $post['tags'] = $newTags;
-
-        return $post;
+                        return [
+                            'tag'  => $tag,
+                            'slug' => $tagSlug,
+                            'url'  => route('page.posts/tags/show', ['tag' => $tagSlug]),
+                        ];
+                    }, $post['tags']) : (array)$post['tags']) : [],
+                ];
+            })->sortByDesc('published_at');
+        });
     }
 
     /**
@@ -76,12 +72,6 @@ class PostService
         $postService = new PostService();
         $posts       = $postService->getPosts();
         $post        = $posts->where('year', $year)->where('month', $month)->where('slug', $slug)->first();
-
-        if ($post) {
-            $postMatter   = YamlFrontMatter::parseFile(base_path('content/posts/' . $post['path']));
-            $converter    = new CommonMarkConverter();
-            $post['body'] = $converter->convertToHtml($postMatter->body());
-        }
 
         return $post ?: null;
     }

@@ -22,6 +22,7 @@ class PostController extends Controller
         return view('pages.posts.index', [
             'posts'      => $posts->slice($startIndex, config('posts.index_page_length')),
             'pagination' => [
+                'total'    => $posts->count(),
                 'previous' => $page > 1 ? route('page.posts', ['page' => $page - 1]) : null,
                 'next'     => $page < floor($posts->count() / config('posts.index_page_length')) ?
                     route('page.posts', [$page + 1])
@@ -49,7 +50,7 @@ class PostController extends Controller
     {
         $postService = new PostService();
         $posts       = $postService->getPosts()->filter(function ($post) use ($tagSlug) {
-            return in_array($tagSlug, array_keys($post['tags']));
+            return in_array($tagSlug, array_pluck($post['tags'], 'tag'));
         });
 
         $startIndex = ($page - 1) * config('posts.index_page_length');
@@ -63,6 +64,7 @@ class PostController extends Controller
             'tag_slug'   => $tagSlug,
             'posts'      => $posts->slice($startIndex, config('posts.index_page_length')),
             'pagination' => [
+                'total'    => $posts->count(),
                 'previous' => $page > 1 ? route('page.posts/tags/show', ['page' => $page - 1]) : null,
                 'next'     => $page <= floor($posts->count() / config('posts.index_page_length')) ?
                     route('page.posts/tags/show', [$page + 1])

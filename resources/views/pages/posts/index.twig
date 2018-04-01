@@ -49,4 +49,9 @@
             {% endif %}
         </ul>
     </nav>
+    <p class="text-muted text-center">
+        <small>
+            Showing {{ posts.count() }} posts of {{ pagination.total }} total
+        </small>
+    </p>
 {% endblock %}
